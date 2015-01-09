@@ -1,0 +1,75 @@
+<?php
+
+include_once "models/result.php";
+
+class detailOrder{
+    
+    protected $id_details_commande, $id_commande, $id_produit;
+//    private $connection;
+    
+    
+    // ##########################################################
+    
+    public function getIdDetailsCommande(){
+        return $this->id_details_commande;
+    }
+    
+    public function getIdCommande(){
+        return $this->id_commande;
+    }
+    
+    public function getIdProduit(){
+        return $this->id_produit;
+    }
+    
+    // ##########################################################
+        
+    public function setIdDetailsCommande($id_details_commande){
+            $this->id_details_commande = $id_details_commande;
+    }
+
+    public function setIdCommande($id_commande){
+            $this->id_commande = $id_commande;
+    }
+
+    public function setIdMembre($id_produit){
+            $this->id_produit = $id_produit;
+    }
+    
+    // ##########################################################   
+    
+    
+    public function addOrderDetails(){
+        $db = Db::getInstance();
+        $req = $db->query("INSERT INTO details_commande (id_commande, id_produit) VALUES ('$this->id_commande', '$this->id_produit')");
+        return $req;
+    }
+    
+    public function selectOrder($memberID){
+        $db = Db::getInstance();
+        $req = $db->query("SELECT * FROM commande WHERE id_membre = '$memberID'");
+        return $req->fetch(PDO::FETCH_ASSOC);
+    }
+    
+    public function findOrder($id){
+        $db = Db::getInstance();
+        $req = $db->query("SELECT * FROM commande WHERE id_commande = '$id'");
+        return $req->fetch(PDO::FETCH_ASSOC);
+    }
+    
+    public function selectAll(){
+        $db = Db::getInstance();
+        $req = $db->query("SELECT * FROM commande");
+        return $req->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public function selectAllOrder($header, $dir){
+        $db = Db::getInstance();
+        $req = $db->query("SELECT * FROM commande ORDER BY " . $header . " ". $dir ."");
+        return $req->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+
+    
+}
+

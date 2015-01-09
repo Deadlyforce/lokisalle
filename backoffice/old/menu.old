@@ -1,0 +1,66 @@
+<?php
+include_once "models/member.php";
+$member = new Member();
+
+    $menu = "";
+
+    $menu .= '<ul>';
+    $menu .= '<li><a href="index.php?controller=rooms&action=accueil">Accueil</a></li>';
+    $menu .= '<li><a href="index.php?controller=products&action=listProductsReservation">Réservation</a></li>';
+    $menu .= '<li><a href="index.php?controller=products&action=searchProducts">Recherche</a></li>';
+
+
+    // Menu membre non connecté (visiteur)
+    if(!$member->sessionExists()){
+        $menu .= '<li><a href="index.php?controller=members&action=connect">Connexion</a></li>';
+        $menu .= '<li><a href="index.php?controller=members&action=add_member">S\'inscrire</a></li>';
+    }
+
+    // Menu membre connecté
+    if($member->sessionExists()){
+        $menu .= '<li><a href="index.php?controller=members&action=profil">Mon profil</a></li>';
+        $menu .= '<li><a href="index.php?controller=orders&action=showCart">Mon panier</a></li>';
+    }
+
+    if($member->userAdmin() || $member->sessionExists()){
+        $menu .= '<li><a href="index.php?controller=members&action=disconnect">Déconnexion</a></li><br/>';
+    }
+
+    // Menu administrateur
+    if($member->userAdmin()){
+        $menu .= '<li><a href="index.php?controller=rooms&action=listRooms">Gestion des salles</a>
+                <ul class="menu2">
+                    <li><a href="index.php?controller=rooms&action=addRoom">Ajouter une salle</a></li>
+                    <li><a href="index.php?controller=rooms&action=listRooms">Afficher les salles</a></li>
+                </ul>
+            </li>';
+        $menu .= '<li><a href="index.php?controller=products&action=listProducts&order=default">Gestion des produits</a>
+                <ul class="menu2">
+                    <li><a href="index.php?controller=products&action=addProduct">Ajouter un produit</a></li>
+                    <li><a href="index.php?controller=products&action=listProducts&order=default">Afficher les produits</a></li>
+                </ul>
+            </li>';
+        $menu .= '<li><a href="index.php?controller=members&action=listMember">Gestion des membres</a>
+                <ul class="menu2">
+                    <li><a href="index.php?controller=members&action=listMember">Liste des utilisateurs</a></li>
+                    <li><a href="index.php?controller=members&action=createAdmin">Nouveau compte admin</a></li>
+                </ul>
+        </li>';
+        $menu .= '<li><a href="index.php?controller=orders&action=manageOrders&order=default">Gestion des commandes</a></li>';
+        $menu .= '<li><a href="index.php?controller=comments&action=listComments">Gestion des avis</a></li>';
+        $menu .= '<li><a href="index.php?controller=promotions&action=listPromo">Gestion des codes promo</a>
+                <ul class="menu2">
+                    <li><a href="index.php?controller=promotions&action=addPromo">Ajouter un code promo</a></li>
+                    <li><a href="index.php?controller=promotions&action=listPromo">Afficher les codes promo</a></li>
+                </ul>
+            </li>';
+        $menu .= '<li><a href="index.php?controller=rooms&action=">Gestion des statistiques</a></li>';
+        $menu .= '<li><a href="index.php?controller=newsletters&action=sendNewsletter">Envoi de la Newsletter</a></li>';
+    }
+    
+    $menu .= '</ul>';
+   
+                
+
+
+
